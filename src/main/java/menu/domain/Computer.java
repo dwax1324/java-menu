@@ -1,9 +1,14 @@
 package menu.domain;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import java.security.KeyStore.Entry;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import menu.domain.category.Categories;
 import menu.domain.category.Category;
+import menu.domain.coach.Coach;
+import menu.domain.coach.Coaches;
 
 public class Computer {
 
@@ -18,8 +23,9 @@ public class Computer {
             "라자냐, 그라탱, 뇨끼, 끼슈, 프렌치 토스트, 바게트, 스파게티, 피자, 파니니"
     );
     Categories categories = new Categories();
-    List<String> coaches;
-    public Computer(List<String> coaches) {
+    Coaches coaches;
+    List<Map.Entry<String, List<String>>> result = new ArrayList<>();
+    public Computer(Coaches coaches) {
         this.coaches = coaches;
         for (int i = 0; i < 5; i++) {
             categories.add(new Category(categoryData.get(i), List.of(menuData.get(i).split(","))));
@@ -30,7 +36,7 @@ public class Computer {
         Categories trial = new Categories();
         while (categories.size() < 5) {
             Category category = categories.get(Randoms.pickNumberInRange(1, 5) - 1);
-            if (getFrequency(trial, category) > 2) {
+            if (trial.getCount(category)> 2) {
                 continue;
             }
             trial.add(category);
@@ -40,12 +46,16 @@ public class Computer {
 
     public void shuffleMenu() {
         for(int i=0; i < coaches.size(); i++){
-//            getFiveMenu();
+            List<String> menus = getFiveMenu(coaches.get(i));
+            result.add(Map.entry(coaches.get(i).getName(),menus));
         }
     }
 
-    private int getFrequency(Categories trial, Category category) {
-        return trial.getCount(category);
+
+    private List<String> getFiveMenu(Category category) {
     }
 
+    public List<Map.Entry<String, List<String>>> toDto(){
+        return result;
+    }
 }
