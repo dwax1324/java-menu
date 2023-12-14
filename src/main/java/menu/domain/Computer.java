@@ -4,6 +4,7 @@ import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import menu.ComputerDto;
 import menu.domain.category.Categories;
 import menu.domain.category.Category;
 import menu.domain.coach.Coaches;
@@ -23,6 +24,7 @@ public class Computer {
     Categories categories = new Categories();
     Coaches coaches;
     List<Map.Entry<String, List<String>>> result = new ArrayList<>();
+    ComputerDto computerDto;
 
     public Computer(Coaches coaches) {
         this.coaches = coaches;
@@ -35,9 +37,9 @@ public class Computer {
     // 중복된 카테고리 2개 초과 X
     public void shuffleCategory() {
         Categories trial = new Categories();
-        while (categories.size() < 5) {
+        while (trial.size() < 5) {
             Category category = categories.get(Randoms.pickNumberInRange(1, 5) - 1);
-            if (trial.getCount(category) > 2) {
+            if (trial.getCount(category) >= 2) {
                 continue;
             }
             trial.add(category);
@@ -47,13 +49,18 @@ public class Computer {
 
     // 각 카테고리를 기준으로 메뉴 추천 진행
     public void shuffleMenu() {
+        List<List<String>> menus = new ArrayList<>();
         for (int i = 0; i < coaches.size(); i++) {
-            List<String> menus = categories.getFiveMenu(coaches.get(i));
-            result.add(Map.entry(coaches.get(i).getName(), menus));
+            List<String> fiveMenu = categories.getFiveMenu(coaches.get(i));
+            menus.add(new ArrayList<>());
+            menus.get(i).add(coaches.get(i).getName());
+            int finalI = i;
+            fiveMenu.forEach(r -> menus.get(finalI).add(r));
         }
+        computerDto = new ComputerDto(categories.getCategoryNames(), menus);
     }
 
-    public List<Map.Entry<String, List<String>>> toDto() {
-        return result;
+    public ComputerDto getDto() {
+        return computerDto;
     }
 }

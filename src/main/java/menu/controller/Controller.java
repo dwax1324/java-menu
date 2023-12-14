@@ -15,13 +15,18 @@ public class Controller {
     OutputView outputView;
     Computer computer;
 
-    void run() {
+    public Controller(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+    }
 
+    public void run() {
         try {
+            outputView.printByMessage("점심 메뉴 추천을 시작합니다.");
             computer = new Computer(getCoachInformation());
             computer.shuffleCategory();
             computer.shuffleMenu();
-            computer.toDto();
+            outputView.printResult(computer.getDto());
         } catch (IllegalArgumentException e) {
             outputView.printByMessage(e.getMessage());
         }
@@ -32,7 +37,7 @@ public class Controller {
         List<String> coachNames = Arrays.asList(input.split(","));
         Coaches coaches = new Coaches();
         for (int i = 0; i < coachNames.size(); i++) {
-            String input2 = inputView.notifyAndRead(coaches.get(i) + "(이)가 못 먹는 메뉴를 입력해 주세요.");
+            String input2 = inputView.notifyAndRead(coachNames.get(i) + "(이)가 못 먹는 메뉴를 입력해 주세요.");
             List<String> coachMenus = Arrays.asList(input2.split(","));
             coaches.add(new Coach(coachNames.get(i), coachMenus));
         }
