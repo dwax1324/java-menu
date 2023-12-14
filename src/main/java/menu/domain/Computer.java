@@ -1,14 +1,9 @@
 package menu.domain;
 
 import camp.nextstep.edu.missionutils.Randoms;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import org.assertj.core.util.Arrays;
+import menu.domain.category.Categories;
+import menu.domain.category.Category;
 
 public class Computer {
 
@@ -23,23 +18,30 @@ public class Computer {
             "라자냐, 그라탱, 뇨끼, 끼슈, 프렌치 토스트, 바게트, 스파게티, 피자, 파니니"
     );
     Categories categories = new Categories();
-
-    public Computer() {
+    List<String> coaches;
+    public Computer(List<String> coaches) {
+        this.coaches = coaches;
         for (int i = 0; i < 5; i++) {
             categories.add(new Category(categoryData.get(i), List.of(menuData.get(i).split(","))));
         }
     }
 
-    public Categories getRecommend() {
+    public void getRecommend() {
         Categories trial = new Categories();
-        while(categories.size() < 5) {
+        while (categories.size() < 5) {
             Category category = categories.get(Randoms.pickNumberInRange(1, 5) - 1);
-            if(getFrequency(trial,category) > 2){
+            if (getFrequency(trial, category) > 2) {
                 continue;
             }
             trial.add(category);
         }
-        return trial;
+        categories = trial;
+    }
+
+    public void shuffleMenu() {
+        for(int i=0; i < coaches.size(); i++){
+//            getFiveMenu();
+        }
     }
 
     private int getFrequency(Categories trial, Category category) {
