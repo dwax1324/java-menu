@@ -1,12 +1,19 @@
 package menu.domain;
 
+import camp.nextstep.edu.missionutils.Randoms;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import org.assertj.core.util.Arrays;
 
 public class Computer {
 
     List<String> categoryData = List.of(
-            "일식","한식","중식","아시안","양식"
+            "일식", "한식", "중식", "아시안", "양식"
     );
     List<String> menuData = List.of(
             "규동, 우동, 미소시루, 스시, 가츠동, 오니기리, 하이라이스, 라멘, 오코노미야끼",
@@ -16,10 +23,27 @@ public class Computer {
             "라자냐, 그라탱, 뇨끼, 끼슈, 프렌치 토스트, 바게트, 스파게티, 피자, 파니니"
     );
     Categories categories = new Categories();
+
     public Computer() {
-        for(int i=0; i < 5; i++){
-            categories.add(new Category(categoryData.get(i),List.of(menuData.get(i).split(","))));
+        for (int i = 0; i < 5; i++) {
+            categories.add(new Category(categoryData.get(i), List.of(menuData.get(i).split(","))));
         }
+    }
+
+    public Categories getRecommend() {
+        Categories trial = new Categories();
+        while(categories.size() < 5) {
+            Category category = categories.get(Randoms.pickNumberInRange(1, 5) - 1);
+            if(getFrequency(trial,category) > 2){
+                continue;
+            }
+            trial.add(category);
+        }
+        return trial;
+    }
+
+    private int getFrequency(Categories trial, Category category) {
+        return trial.getCount(category);
     }
 
 }
