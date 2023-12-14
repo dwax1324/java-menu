@@ -17,7 +17,10 @@
 - 추천할 수 없는 메뉴인 경우 다시 섞은 후 첫 번째 값을 사용해야 한다.
 
 
-Category
+# Category
 -[x] 카테고리 이름, 메뉴 저장 기능
-Categories
+# Categories
 - [x] 카테고리 모음 저장 기능
+- [x] 카테고리 추가 기능
+# Computer
+- [x] 카테고리 뽑기 기능 추가
