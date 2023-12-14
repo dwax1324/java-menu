@@ -15,9 +15,11 @@ public class Computer {
             "팟타이, 카오 팟, 나시고렝, 파인애플 볶음밥, 쌀국수, 똠얌꿍, 반미, 월남쌈, 분짜",
             "라자냐, 그라탱, 뇨끼, 끼슈, 프렌치 토스트, 바게트, 스파게티, 피자, 파니니"
     );
-    Categories categories = new Categories(Arrays.asList())
+    Categories categories = new Categories();
     public Computer() {
-
+        for(int i=0; i < 5; i++){
+            categories.add(new Category(categoryData.get(i),List.of(menuData.get(i).split(","))));
+        }
     }
 
 }
