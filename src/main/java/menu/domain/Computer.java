@@ -1,13 +1,11 @@
 package menu.domain;
 
 import camp.nextstep.edu.missionutils.Randoms;
-import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import menu.domain.category.Categories;
 import menu.domain.category.Category;
-import menu.domain.coach.Coach;
 import menu.domain.coach.Coaches;
 
 public class Computer {
@@ -25,6 +23,7 @@ public class Computer {
     Categories categories = new Categories();
     Coaches coaches;
     List<Map.Entry<String, List<String>>> result = new ArrayList<>();
+
     public Computer(Coaches coaches) {
         this.coaches = coaches;
         for (int i = 0; i < 5; i++) {
@@ -34,11 +33,11 @@ public class Computer {
 
     // 카테고리 추천 및 추천된 카테고리 저장
     // 중복된 카테고리 2개 초과 X
-    public void getRecommend() {
+    public void shuffleCategory() {
         Categories trial = new Categories();
         while (categories.size() < 5) {
             Category category = categories.get(Randoms.pickNumberInRange(1, 5) - 1);
-            if (trial.getCount(category)> 2) {
+            if (trial.getCount(category) > 2) {
                 continue;
             }
             trial.add(category);
@@ -48,21 +47,13 @@ public class Computer {
 
     // 각 카테고리를 기준으로 메뉴 추천 진행
     public void shuffleMenu() {
-        for(int i=0; i < coaches.size(); i++){
-            List<String> menus = getFiveMenu(coaches.get(i));
-            result.add(Map.entry(coaches.get(i).getName(),menus));
+        for (int i = 0; i < coaches.size(); i++) {
+            List<String> menus = categories.getFiveMenu(coaches.get(i));
+            result.add(Map.entry(coaches.get(i).getName(), menus));
         }
     }
 
-
-    // 한명의 코치에게 5개의 메뉴를 추천
-    // 음식 중복 X, 못먹는 음식 X,
-    private List<String> getFiveMenu(Coach coach) {
-        categories.getFiveMenu(coach);
-
-    }
-
-    public List<Map.Entry<String, List<String>>> toDto(){
+    public List<Map.Entry<String, List<String>>> toDto() {
         return result;
     }
 }
