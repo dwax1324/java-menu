@@ -32,6 +32,8 @@ public class Computer {
         }
     }
 
+    // 카테고리 추천 및 추천된 카테고리 저장
+    // 중복된 카테고리 2개 초과 X
     public void getRecommend() {
         Categories trial = new Categories();
         while (categories.size() < 5) {
@@ -44,6 +46,7 @@ public class Computer {
         categories = trial;
     }
 
+    // 각 카테고리를 기준으로 메뉴 추천 진행
     public void shuffleMenu() {
         for(int i=0; i < coaches.size(); i++){
             List<String> menus = getFiveMenu(coaches.get(i));
@@ -52,7 +55,11 @@ public class Computer {
     }
 
 
-    private List<String> getFiveMenu(Category category) {
+    // 한명의 코치에게 5개의 메뉴를 추천
+    // 음식 중복 X, 못먹는 음식 X,
+    private List<String> getFiveMenu(Coach coach) {
+        categories.getFiveMenu(coach);
+
     }
 
     public List<Map.Entry<String, List<String>>> toDto(){

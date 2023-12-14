@@ -6,19 +6,22 @@ import java.util.List;
 import menu.domain.category.Category;
 
 public class Coaches {
-    private final List<Category> coachList = new ArrayList<>();
+    private final List<Coach> coachList = new ArrayList<>();
 
-    public void add(Category category){
-        coachList.add(category);
+    public void add(Coach coach) {
+        coachList.add(coach);
     }
-    public int size(){
+
+    public int size() {
         return coachList.size();
     }
-    public Category get(int index){
+
+    public Coach get(int index) {
         return coachList.get(index);
     }
-    public int getCount(Category category){
-        return Collections.frequency(coachList,category);
+
+    public int getCount(Category category) {
+        return Collections.frequency(coachList, category);
     }
 
 }
