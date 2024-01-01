@@ -37,17 +37,25 @@ public class Categories {
         int index = 0;
         while (candidates.size() < 5) {
             List<String> menus = categoryList.get(index).getMenus();
-//            System.out.println(categoryList.get(index).getName() + " " + menus);
-            String candidate = Randoms.shuffle(menus).get(0);
-            if (candidates.contains(candidate)) { // duplicated
-                continue;
-            }
-            if (coach.getMenus().contains(candidate)) { // cant eat
-                continue;
-            }
+            String candidate = getCandidate(candidates, menus, coach);
+//            System.out.println(
+//                    categoryList.get(index).getName() + " " + menus + " " + index + " " + candidate);
             index++;
             candidates.add(candidate);
         }
+        System.out.println(candidates);
         return candidates;
+    }
+
+    private String getCandidate(List<String> candidates, List<String> menus, Coach coach) {
+        List<String> shuffled = new ArrayList<>(menus);
+        String candidate = Randoms.shuffle(shuffled).get(0);
+        while (candidates.contains(candidate) || coach.getMenus().contains(candidate)) {
+            shuffled = Randoms.shuffle(shuffled);
+            candidate = Randoms.shuffle(shuffled).get(0);
+        }
+        List<Integer> tst = List.of(1, 2, 3, 4, 5);
+        System.out.println(Randoms.shuffle(tst));
+        return candidate;
     }
 }
